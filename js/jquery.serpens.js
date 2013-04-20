@@ -3,32 +3,10 @@
     init: function( options ) {
       return this.each(function() {
         var obj = $(this),
-            opt = options;
+            opt = options,
+            $slBox  = $.fn.serpens.structure( obj, opt );
         
-        var id       = obj.attr("id"),
-            slVal    = obj.find(":selected").val(),
-            slTxt    = obj.find(":selected").text(),
-            $slBox   = "",
-            $dis     = "",
-            $ul      = "";
-    
-        $dis += "<div id='dis-option-" + id + "'><span for='" + slVal + "'>" + slTxt + "</span></div>";
-    
-        $ul += "<div id='drop-option-" + id + "'><ul for='" + id + "'>";
-          $.each(obj.children(), function(idx, val) {
-            $ul += "<li for='" + $(val).attr('value') + "'>";
-            $ul += $(val).text();
-            $ul += "</li>";
-          });
-        $ul += "</ul></div>";
-    
-        $slBox += "<div id='select-option-" + id + "' class='hooley-box'>" + $dis + $ul + "</div>";
-        
-        obj.hide().after(
-          $($slBox).css({
-            width: opt.width
-          })
-        ); 
+        obj.hide().after( $slBox ); 
         
       });
     },
@@ -54,18 +32,44 @@
     }
   }
   
+  // plugin definition
   $.fn.serpens = function( options ) {
     if( typeof options === 'object' || !options ) {
-      var defaults = {
-        width: 150,
-        debug: 'debugging'
-      };
-      
-      var options = $.extend(defaults, options);
+      var options = $.extend($.fn.serpens.defaults, options);
       
       return methods.init.apply( this, [options] );
     } else if ( methods[options] ) {
       return methods[options].apply( this );
     }
   };
+
+  $.fn.serpens.structure = function( obj, opt ) {
+    var id       = obj.attr("id"),
+        slVal    = obj.find(":selected").val(),
+        slTxt    = obj.find(":selected").text(),
+        $slBox   = "",
+        $dis     = "",
+        $ul      = "";
+
+    $dis += "<div class='display-option'><span for='" + slVal + "'>" + slTxt + "</span></div>";
+
+    $ul += "<div class='drop-option'><ul for='" + id + "'>";
+      $.each(obj.children(), function(idx, val) {
+        $ul += "<li for='" + $(val).attr('value') + "'>";
+        $ul += $(val).text();
+        $ul += "</li>";
+      });
+    $ul += "</ul></div>";
+
+    $slBox += "<div id='select-option-" + id + "' class='serpens-box'>" + $dis + $ul + "</div>";
+    
+    return $($slBox).css({
+      width: opt.width
+    }); 
+  }
+
+  // plugin defaults for this plugin
+  $.fn.serpens.defaults = {
+    width: 150
+  }
 })( jQuery );

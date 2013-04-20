@@ -1,7 +1,22 @@
-.hooley-box { overflow: hidden; }
-  
-ul {
-  list-style: none;
+@charset "UTF-8";
+.serpens-box {
+  overflow: hidden;
+  color: black;
+  font: 14px "Helvetica Neue",​Helvetica,​Arial,​sans-serif; }
+
+.serpens-box ul {
   margin: 0;
   padding: 0;
-}
+  list-style: none; }
+
+/* Display Option Style */
+.serpens-box .display-option {
+  display: inline-block;
+  margin: 2px 0;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-weight: bold; }
+
+.serpens-box .display-option:after {
+  content: 'A'; }
